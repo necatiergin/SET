@@ -1,10 +1,12 @@
+// transparent function object
+
 #include <set>
 #include <string>
 #include <cstdlib>
 #include <utility>
 #include "nutility.h"    // see the header
 
-class Employee  {
+class Employee {
 public:
     Employee(int id, std::string name) : m_id(id), m_name(std::move(name)) {}
     [[nodiscard]] int get_id() const { return m_id; }
@@ -14,17 +16,17 @@ private:
     std::string m_name;
 };
 
-bool operator<(Employee const& lhs, Employee const& rhs)
+[[nodiscard]] bool operator<(Employee const& lhs, Employee const& rhs)
 {
     return lhs.get_id() < rhs.get_id();
 }
 
-bool operator<(int id, Employee const& e)
+[[nodiscard]] bool operator<(int id, const Employee& e)
 {
     return id < e.get_id();
 }
 
-bool operator<(Employee const& e, int id)
+[[nodiscard]] bool operator<(const Employee& e, int id)
 {
     return e.get_id() < id;
 }
@@ -43,5 +45,5 @@ int main()
     else {
         std::cout << "not found\n";
     }
-    
+
 }
