@@ -4,7 +4,7 @@
 #include <utility>
 #include "nutility.h"    // see the header
 
-class Employee  {
+class Employee {
 public:
     Employee(int id, std::string name) : m_id(id), m_name(std::move(name)) {}
     [[nodiscard]] int get_id() const { return m_id; }
@@ -16,21 +16,21 @@ private:
 
 struct IdCompare
 {
-    using is_transparent = struct SearchById; 
+    using is_transparent = struct SearchById;
 
-    bool operator()(Employee const& employee1, Employee const& employee2) const
+    [[nodiscard]] bool operator()(const Employee& lhs, const Employee& rhs) const
     {
-        return employee1.get_id() < employee2.get_id();
+        return lhs.get_id() < rhs.get_id();
     }
 
-    bool operator()(int id, Employee const& employee) const
+    [[nodiscard]] bool operator()(int id, const Employee& e) const
     {
-        return id < employee.get_id();
+        return id < e.get_id();
     }
 
-    bool operator()(Employee const& employee, int id) const
+    [[nodiscard]] bool operator()(const Employee &e, int id) const
     {
-        return employee.get_id() < id;
+        return e.get_id() < id;
     }
 };
 
@@ -48,5 +48,4 @@ int main()
     else {
         std::cout << "not found\n";
     }
-    
 }
